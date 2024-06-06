@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<style>
+  #Grafic {
+    width: 100%;
+    height: 400px;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    #Grafic {
+      height: 300px;
+    }
+  }
+  .chart-container{
+    display:inline-block;
+    background-color:#afafe7;
+    border-radius:8px;
+    z-index:1;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:90px;
+    padding-bottom:90px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  }
+
+  .chart-container:hover{
+    transform:scale(1.03);
+    transition:0.5s;
+  }
+
+#block{
+  display:flex ;
+  flex-direction:row;
+  justify-content:space-evenly;
+  }
+
+  .view{
+    padding:10px;
+  }
+
+
+
+
+  #gf{
+    display:inline-block;
+    width:100%;
+    background-color: #f3c032;
+  }
+
+  @media screen and (max-width: 1200px) {
+    #block{
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+      justify-content:center;
+      align-items:center;
+    }
+
+  }
+</style>
+
+{% if user.is_authenticated %}
+<div style="background-color:#3b8ee1">
+    <br>
+    <br>
+      <div style="background-color:#afafe7; font-size:30px; justify-content:center; margin-left:50px;margin-right:50px;border:3px solid black; padding:10px;border-radius:8px">
+      <p> Benvenuto {{user.username}}!</p>
+      <p> Questo è il tuo diario! Qui puoi tenere traccia dei tuoi allenamenti, inoltre puoi aggiungere obiettivi con il numero di calorie da bruciare.</p>
+      <p> Nel menu in alto a destra puoi visualizzare il tuo profilo oppure guardare lo storico di allenamenti e obiettivi. </p>
+    </div>
+    <br>
+    <br>
+    <div style="display:flex;flex-direction:column;">
+    <div id="block">
+      <div>
+        <h1 class="text-center">Allenamenti</h1>
+        <a href="{% url 'workout_list' %}">
+        <div class="chart-container">
+      <canvas id="workoutChart" width="400" height="400"></canvas>
+    </div>
+        </a>
+        <div style="justify-content:center;height:107px; box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;display: flex; flex-direction: column; align-items: center;background-color:#afafe7; margin-top:10px; padding:3px; border-radius:8px;">
+        <a class="btn btn-primary" style href="{% url 'workouts' %}">Aggiungi allenamento</a>
+        </div>
+      </div>
+
+      <div >
+        <h1 class="text-center" >Obiettivi attivi </h1>
+        <a href="{% url 'users:profile' %}">
+        <div class="chart-container">
+          <canvas id="AchivementChart" width="400" height="400">
+          </canvas>
+        </div>
+        </a>
+
+        <div style=" box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;display: flex; flex-direction: column; align-items: center;background-color:#afafe7; margin-top:10px; padding:3px; border-radius:8px;">
+      {% if selected_goal.is_deadline_expired and not selected_goal.is_completed %}
+        <p style="font-size:30px;">Scaduto!</p>
+        <a class="btn btn-danger" href="{% url 'listaobiettivi' %}"> Scegli un altro obiettivo! </a>
+      {% else %}
+        {% if remaining == 0 %}
+          <p style="font-size:30px;"> Non hai obiettivi </p>
+        <div style="display:flex; justify-context:center;">
+          <a  style=" margin-bottom:5px;" class="btn btn-primary" href="{% url 'create_goal' %}">Crea un nuovo obiettivo!</a>
+        </div>
+        {% else %}
+           {% if is_completed %}
+           <p style="font-size:30px;">Completato!</p>
+           <a class="btn btn-primary" href="{% url 'listaobiettivi' %}"> Scegli un altro obiettivo! </a>
+           {% else %}
+            {% if selected_goal %}
+            <p style="font-size:30px;">Avanzamento... </p>
+            <p>Giorni: {{remain_days }}</p>
+            <p>Scadenza: {{ deadline }}</p>
+            <p>Obiettivo: {{ cal_goal }} Cal </p>
+            {% else %}
+            <p style="font-size:30px;">Nessun obiettivo selezionato </p>
+            <a class="btn btn-primary" href="{% url 'listaobiettivi' %}"> Scegli un obiettivo! </a>
+            {% endif %}
+           {% endif %}
+          {% endif %}
+          {% endif %}
+        </div>
+      </div>
+
+      <div>
+        <h1 class="text-center">Stato obiettivi </h1>
+        <a href="{% url 'listaobiettivi' %}">
+        <div class="chart-container">
+          <canvas id="CompletedChart" width="400" height="400"></canvas>
+        </div></a>
+         <div class=" text-center" style="height:107px; box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;display: flex; flex-direction: column; align-items: center;background-color:#afafe7; margin-top:10px; padding:3px; border-radius:8px;">
+         {% if all_goals == completed %}
+            <p style="font-size:30px;"> Complimenti! </p>
+            <p style="font-size:19px;"> Hai completato tutti gli obiettivi! </p>
+         {% else %}
+           <p style="font-size:30px;">Mancano ancora {{remaining}} obiettivi</p>
+           <p style="font-size:30px;">da completare!</p>
+         {% endif %}
+
+         </div>
+    </div>
+
+    </div>
+  <div style="border-bottom:1px solid black; margin:20px"></div>
+
+    <div id="gf">
+      <h1 class="text-center" style="padding:20px">Frequenza allenamenti</h1>
+      <div id="Grafic" style="height:400px;width:100%"></div>
+    </div>
+    </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+<div class="container-fluid bg-dark text-white text-center p-3">
+            <p>© 2024 BocciaFitnessApp</p>
+        </div>
+
+{% else %}
+
+  <div>
+    <div class="text-center">
+      <h1>Benvenuto nel tuo diario di allenamento </h1>
+      <p>Tieni traccia dei tuoi allenamenti e poni nuovi obiettivi.</p>
+    </div>
+  </div>
+
+{% endif %}
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+      var workoutTypesData = [
+        {% for w in workout_types %}
+          { label: "{{ w.0 }}", count: {{ w.1 }} },
+        {% endfor %}
+      ];
+
+
+      var labels = workoutTypesData.map(function(item) {
+        return item.label;
+      });
+      var counts = workoutTypesData.map(function(item) {
+        return item.count;
+      });
+
+      // Crea il grafico utilizzando Chart.js
+      var ctx = document.getElementById("workoutChart").getContext("2d");
+      var chart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: labels,
+          datasets: [{
+            data: counts,
+            backgroundColor: ["#df1111", "#177ce1", "#f3c032", "#a74bc0"],
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var burned = {{ cal_burned }}
+      var goal = {{ cal_goal }}
+      var progress = (burned / goal) * 100;
+      if (progress > 100) {
+        progress = 100;
+      }
+      var remaining = 100 - progress;
+      var ctx = document.getElementById("AchivementChart").getContext("2d");
+      var AchivementChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: ["Progresso", "Rimanente"],
+          datasets: [{
+            data: [progress, remaining],
+            backgroundColor: ["#358d40", "#fd4848"],
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+
+
+
+    });
+  </script>
+
+ <script>
+   document.addEventListener("DOMContentLoaded",function(){
+     var completed = {{ completed }}
+     var remaining = {{ remaining }}
+     var expired = {{ expired }}
+        var ctx = document.getElementById("CompletedChart").getContext("2d");
+        var CompletedChart = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Completato", "In corso","Scaduto"],
+            datasets: [{
+              data: [completed, remaining, expired],
+              backgroundColor: ["#358d40", "#ffc729", "#fd4848"],
+            }],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          },
+        });
+
+
+   })
+ </script>
+
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    window.onresize = function() {
+    drawChart();
+    };
+
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+
+    var dates = {{ dates|safe }}
+    var counts = {{ counts|safe }}
+
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('date', 'Date');
+    data.addColumn('number', 'Workouts');
+
+    for (var i = 0; i < dates.length; i++) {
+      var dateParts = dates[i].split('-');
+      data.addRow([new Date(dateParts[0], dateParts[1] - 1, dateParts[2]), counts[i]]);
+    }
+
+
+    var options = {
+      legend: { position: 'none' },
+      bars: 'vertical',
+      vAxis: {
+        title: 'Allenamenti',
+        minValue: 0
+      },bar: { groupWidth: '20%' },
+      colors: [ '#177ce1', '#f3c032', '#a74bc0','#df1111'],
+      hAxis: {
+    spacingBetween: 0
+  },
+      responsive: true,
+
+    };
+
+    var chart = new google.visualization.ColumnChart(document.getElementById('Grafic'));
+    chart.draw(data, options);
+  }
+</script>
+
+
+{% endblock content %}
+
+
+
+
+
+

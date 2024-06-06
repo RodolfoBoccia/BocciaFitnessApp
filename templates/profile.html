@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style>
+   header{
+      width: 100%;
+      padding: 20px;
+      border-bottom: 2px solid #ccc;
+   }
+  #datiprofilo{
+    margin:20px;
+    padding: 10px;
+    width: 100%;
+
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #b6b6ea;
+  }
+  p{
+    margin: 10px;
+  }
+  .field{
+    display: flex;
+    justify-content: start;
+      gap: 20px;
+    margin: 5px;
+    border: 1px solid #070707;
+    border-radius: 4px;
+    font-size: 20px;
+  }
+  .profile-picture {
+
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-picture-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 50px;
+}
+
+
+  .completed_goal{
+    padding: 10px;
+    width: 100%;
+    height: 700px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+</style>
+<div style="background-color:#f3c032;display:flex;flex-direction:column">
+<div id="wr" style="display:flex; flex-direction:row">
+
+  <div id="datiprofilo" class="crispy">
+    <h1 style="margin-left:20px;padding:10px;">Profilo Utente:</h1>
+    <div class="field"><p>Nome:</p><p> {{ user.first_name }}</p></div>
+    <div class="field"><p>Cognome:</p><p> {{ user.last_name }}</p> </div>
+    <div class="field"><p>Email:</p><p> {{ user.email }}</p> </div>
+    <div class="field"><p>Username:</p> <p> {{ user.username }}</p> </div>
+    <div class="field"><p>Età:</p><p> {{ user.age }}</p></div>
+    <div class="field"><p>Altezza:</p><p> {{ user.altezza }}</p><p>cm</p></div>
+    <div class="field"><p>Peso:</p><p>{{user.peso}}</p><p>kg</p></div>
+  </div>
+
+  <div class="profile-picture-container">
+   {% if user.profile_pic %}
+    <img class="profile-picture" style="border:3px solid black" src="{{user.profile_pic.url}}">
+   {% else %}
+      <img class="profile-picture" style="border:3px solid black" src="{% static 'images/user_default.jpeg'%}">
+  {% endif %}
+      <div class="text-center">
+   <a href="{% url 'users:updateprofile' %}" class="btn btn-primary">Modifica profilo</a>
+  </div>
+  </div>
+
+</div>
+
+</div>
+
+
+
+<div class="completed_goal table-responsive">
+    <h1 style="margin-left:10px;padding:10px;">Obiettivi completati:</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Obiettivo</th>
+            <th>Status</th>
+            <th>Calorie obiettivo</th>
+            <th>Calorie bruciate</th>
+            <th>Completato</th>
+            <th>Scadenza</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for goal in goals_completed %}
+            <tr>
+            <td>{{ goal.goal_type }}</td>
+            <td>
+                {% if goal.is_completed %}
+                <span class="badge bg-success">Completato</span>
+                {% endif %}
+            </td>
+            <td>
+                {{ goal.CaloriesGoal }}
+            </td>
+            <td>
+                {{ goal.cal }}
+            </td>
+
+            <td>
+                {% if goal.is_completed %}
+                <div style="width: 20px;height: 20px;border-radius: 50%;display: inline-block; background-color:green"></div>
+                {% else %}
+                <div style="width: 20px;height: 20px;border-radius: 50%;display: inline-block;background-color: red;"></div>
+                {% endif %}
+            </td>
+            <td>{{ goal.deadline }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+{% endblock content %}
