@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Aggiungi allenamento{% endblock title %}
+
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<h1 class="text-center">Aggiungi allenamento:</h1>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <div style="margin-top: 20px;">
+        <form method="POST" action="{% url 'workouts' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_workout_type">Tipo di allenamento</label>
+            {{ form.workout_type }}
+          </div>
+
+          <div class="form-group" style="margin-top: 20px;">
+            <label for="id_distance">Distanza (Km)</label>
+            <input type="number" step="0.01" min="0" id="id_distance" name="distance">
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <label for="id_repetitions">Reps</label>
+            <input type="number" step="1" min="0" id="id_repetitions" name="repetitions">
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <label for="id_weight">Peso (Kg)</label>
+            <input type="number" step="1" min="0" id="id_weight" name="weight">
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <label for="id_descrizione">Titolo </label>
+            {{ form.descrizione }}
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <label for="id_calories_burned">Calorie bruciate (Cal)</label>
+            <input type="number" step="1" min="0" id="id_calories_burned" name="calories_burned">
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Aggiungi allenamento</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$(document).ready(function() {
+  // Nascondi i campi inizialmente
+  $("#id_distance").closest(".form-group").hide();
+  $("#id_repetitions").closest(".form-group").hide();
+  $("#id_weight").closest(".form-group").hide();
+  $("#id_descrizione").closest(".form-group").hide();
+  $("#id_calories_burned").closest(".form-group").hide();
+  var initial_option= $("#id_workout_type").val();
+
+
+  // Mostra/nascondi i campi in base al valore di workout_type
+  $("#id_workout_type").change(function() {
+    var workoutType = $(this).val();
+    if (workoutType === "Pesi") {
+      $("#id_distance").closest(".form-group").hide();
+      $("#id_repetitions").closest(".form-group").show();
+      $("#id_weight").closest(".form-group").show();
+      $("#id_calories_burned").closest(".form-group").show();
+      $("#id_descrizione").closest(".form-group").hide();
+    } else {
+      if (workoutType === "Altro"){
+        $("#id_descrizione").closest(".form-group").show();
+        $("#id_calories_burned").closest(".form-group").show();
+        $("#id_distance").closest(".form-group").hide();
+        $("#id_repetitions").closest(".form-group").hide();
+        $("#id_weight").closest(".form-group").hide();
+      }else{
+      $("#id_distance").closest(".form-group").show();
+      $("#id_calories_burned").closest(".form-group").show();
+      $("#id_repetitions").closest(".form-group").hide();
+      $("#id_weight").closest(".form-group").hide();
+      $("#id_descrizione").closest(".form-group").hide();
+      }
+      if(workoutType === initial_option ){
+      $("#id_distance").closest(".form-group").hide();
+      $("#id_calories_burned").closest(".form-group").hide();
+      }
+    }
+  });
+});
+</script>
+
+{% endblock content %}

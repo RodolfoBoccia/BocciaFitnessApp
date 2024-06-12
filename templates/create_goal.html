@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Crea obiettivo{% endblock title %}
+
+{% block content %}
+
+  <h1 class="text-center">Crea obiettivo</h1>
+  <div class="d-flex justify-content-center">
+    <form method="post" action="{% url 'create_goal' %}" class="w-50">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_goal_type">Tipo di obiettivo</label>
+        {{ form.goal_type }}
+      </div>
+      <div class="form-group">
+        <label for="id_tempistica">Tempo per completare</label>
+        {{ form.tempistica }}
+      </div>
+        <label for="id_descrizione">Descrizione</label>
+      <div class="form-group">
+        {{ form.descrizione }}
+      </div>
+      <div>
+        <label for="id_CaloriesGoal">Obiettivo (cal)</label>
+        <input type="number" step="100" min="0" id="id_calories_burned" name="CaloriesGoal">
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Aggiungi obiettivo</button>
+      </div>
+    </form>
+  </div>
+{% endblock content %}

@@ -62,25 +62,17 @@
 <div id="wr" style="display:flex; flex-direction:row">
 
   <div id="datiprofilo" class="crispy">
-    <h1 style="margin-left:20px;padding:10px;">Profilo Utente:</h1>
-    <div class="field"><p>Nome:</p><p> {{ user.first_name }}</p></div>
-    <div class="field"><p>Cognome:</p><p> {{ user.last_name }}</p> </div>
+    <h1 style="display: flex; justify-content: space-between; padding:10px;">Profilo Utente: 
+        <a href="{% url 'users:updateprofile' %}" class="btn btn-primary">Modifica profilo</a>
+    </h1>
+    <div class="field"><p>Nome:</p><p> {{ user.nome }}</p></div>
+    <div class="field"><p>Cognome:</p><p> {{ user.cognome }}</p> </div>
     <div class="field"><p>Email:</p><p> {{ user.email }}</p> </div>
     <div class="field"><p>Username:</p> <p> {{ user.username }}</p> </div>
-    <div class="field"><p>Età:</p><p> {{ user.age }}</p></div>
-    <div class="field"><p>Altezza:</p><p> {{ user.altezza }}</p><p>cm</p></div>
+    <div class="field"><p>Età:</p><p> {{ user.età }}</p></div>
     <div class="field"><p>Peso:</p><p>{{user.peso}}</p><p>kg</p></div>
-  </div>
+      <div class="field"><p>Altezza:</p><p> {{ user.altezza }}</p><p>cm</p></div>
 
-  <div class="profile-picture-container">
-   {% if user.profile_pic %}
-    <img class="profile-picture" style="border:3px solid black" src="{{user.profile_pic.url}}">
-   {% else %}
-      <img class="profile-picture" style="border:3px solid black" src="{% static 'images/user_default.jpeg'%}">
-  {% endif %}
-      <div class="text-center">
-   <a href="{% url 'users:updateprofile' %}" class="btn btn-primary">Modifica profilo</a>
-  </div>
   </div>
 
 </div>

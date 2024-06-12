@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class BocciafitnessConfig(AppConfig):
+class ObiettiviConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'BocciaFitness'
+    name = 'obiettivi'

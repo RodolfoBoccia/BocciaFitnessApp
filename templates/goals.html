@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Lista obiettivi{% endblock title %}
+
+{% block content %}
+<style>
+  td {
+    text-align: center;
+  }
+  tr {
+    text-align: center;
+  }
+
+</style>
+  <div>
+    <h1>
+      Goal List
+      <a href="{% url 'create_goal' %}" class="btn btn-primary"> + </a>
+    </h1>
+  </div>
+
+<form id="goalSelectionForm" method="POST" action="{% url 'update_goal_selection' %}">
+  {% csrf_token %}
+  <input type="hidden" name="selected_goal" id="selectedGoalInput">
+ <div class="table-responsive" >
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Obiettivo</th>
+        <th>Scadenza</th>
+        <th>Stato</th>
+        <th>Obiettivo calorie</th>
+        <th>Bruciate</th>
+        <th>Completato</th>
+        <th>Attivo</th>
+        <th>Elimina</th>
+        <th>Modifica</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for goal in goals %}
+        <tr>
+          <td>{{ goal.goal_type }}</td>
+          <td>{{ goal.deadline }}</td>
+          <td>
+            {% if goal.is_completed %}
+              <span class="badge bg-success">Completato</span>
+            {% else %}
+             {% if goal.is_deadline_expired %}
+              <span class="badge bg-danger">Scaduto</span>
+             {% else %}
+              <span class="badge bg-warning">Avanzamento</span>
+            {% endif %}
+           {% endif %}
+          </td>
+          <td>
+            {{ goal.CaloriesGoal }}
+          </td>
+          <td>
+            {{ goal.cal }}
+          <td>
+            {% if goal.is_completed %}
+            <div style="width: 20px;height: 20px;border-radius: 50%;display: inline-block; background-color:green"></div>
+            {% else %}
+            <div style="width: 20px;height: 20px;border-radius: 50%;display: inline-block;background-color: red;"></div>
+            {% endif %}
+          </td>
+        {% if not goal.is_completed and not goal.is_deadline_expired %}
+         <td >
+         <input type="radio" name="selected_goal" value="{{ goal.pk }}" onchange="this.form.submit()"
+          {% if goal.is_selected %} checked {% endif %}>
+         </td>
+          <td>
+            <a href="{% url 'delete_goal' goal.pk %}" class="btn btn-danger">-</a>
+          </td>
+          <td>
+            <a href="{% url 'edit' goal.pk %}" class="btn btn-primary">...</a>
+          </td>
+          {% else %}
+          <td>&nbsp</td>
+          <td>&nbsp</td>
+          <td>&nbsp</td>
+          {% endif %}
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="10">Nessun obiettivo completato</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+</form>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const checkboxes = document.querySelectorAll('input[name="selected_goal"]');
+  const selectedGoalInput = document.querySelector('#selectedGoalInput');
+
+  checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+      checkboxes.forEach(function(otherCheckbox) {
+        if (otherCheckbox !== checkbox) {
+          otherCheckbox.checked = false;
+        }
+      });
+
+      selectedGoalInput.value = checkbox.value;
+      document.getElementById('goalSelectionForm').submit();
+    });
+  });
+});
+</script>
+{% endblock content %}

@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from .forms import CustomUserCreationForm, ProfileUpdateForm
 from django.shortcuts import render, redirect
-#from obiettivi.models import GoalModel
+from obiettivi.models import GoalModel
 
 
 @login_required

@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'users',
     'pages',
+    'workouts',
+    'obiettivi',
     'crispy_forms',
     'crispy_bootstrap5',
-    "BocciaFitness.apps.BocciafitnessConfig"
 ]
 
 MIDDLEWARE = [

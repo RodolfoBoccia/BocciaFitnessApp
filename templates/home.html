@@ -65,15 +65,6 @@
 
 {% if user.is_authenticated %}
 <div style="background-color:#3b8ee1">
-    <br>
-    <br>
-      <div style="background-color:#afafe7; font-size:30px; justify-content:center; margin-left:50px;margin-right:50px;border:3px solid black; padding:10px;border-radius:8px">
-      <p> Benvenuto {{user.username}}!</p>
-      <p> Questo è il tuo diario! Qui puoi tenere traccia dei tuoi allenamenti, inoltre puoi aggiungere obiettivi con il numero di calorie da bruciare.</p>
-      <p> Nel menu in alto a destra puoi visualizzare il tuo profilo oppure guardare lo storico di allenamenti e obiettivi. </p>
-    </div>
-    <br>
-    <br>
     <div style="display:flex;flex-direction:column;">
     <div id="block">
       <div>
@@ -146,10 +137,10 @@
     </div>
 
     </div>
-  <div style="border-bottom:1px solid black; margin:20px"></div>
+  <div style=" margin:16px"></div>
 
     <div id="gf">
-      <h1 class="text-center" style="padding:20px">Frequenza allenamenti</h1>
+      <h1 class="text-center" style="padding:20px; margin:0">Frequenza allenamenti</h1>
       <div id="Grafic" style="height:400px;width:100%"></div>
     </div>
     </div>

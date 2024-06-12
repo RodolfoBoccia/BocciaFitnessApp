@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.shortcuts import render
-#from workouts.models import Workout
-#from obiettivi.models import GoalModel
+from workouts.models import Workout
+from obiettivi.models import GoalModel
 
 
 @login_required

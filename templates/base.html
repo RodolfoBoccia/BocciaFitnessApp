@@ -24,8 +24,10 @@
                         <li><a class="dropdown-item" href="{% url 'users:profile' %}">Profilo</a></li>
                         <li><a class="dropdown-item" href="{% url 'workout_list' %}">Allenamenti</a></li>
                         <li><a class="dropdown-item" href="{% url 'listaobiettivi' %}">Obiettivi</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'users:logout' %}">Log Out</a></li>
+                        <li><form method="post"  action="{% url 'users:logout' %}">
+                            {% csrf_token %}
+                            <button class="dropdown-item"> Log Out </button>
+                        </form>
                     </ul>
                 </div>
                 {% else %}
