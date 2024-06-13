@@ -132,3 +132,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 AUTH_USER_MODEL = "users.CustomUser"
 LOGIN_REDIRECT_URL = "homeview"
+
+CSRF_TRUSTED_ORIGINS = ['https://bocciafitnessapp.onrender.com']
+
