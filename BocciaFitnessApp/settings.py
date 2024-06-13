@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-5i=^ob%5dx@#j-7^n4g8&8p36!mr@*ya*b)rms#un$vd*d1a13
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['']
+ALLOWED_HOSTS = ['*''bocciafitnessapp.onrender.com']
 
 
 # Application definition
