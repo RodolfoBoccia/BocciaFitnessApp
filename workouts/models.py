@@ -17,7 +17,7 @@ class Workout(models.Model):
     distance = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     descrizione = models.CharField(max_length=50, null=True, blank=True)
     utente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, default=None)
-    goal = models.ForeignKey('obiettivi.GoalModel', on_delete=models.CASCADE, null=True, blank=True, default=None)
+    goal = models.ForeignKey('goals.GoalModel', on_delete=models.CASCADE, null=True, blank=True, default=None)
 
     def __str__(self):
         return self.get_workout_type_display()

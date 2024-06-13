@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('obiettivi', '0006_goalmodel_caloriesgoal'),
+        ('goals', '0006_goalmodel_caloriesgoal'),
     ]
 
     operations = [

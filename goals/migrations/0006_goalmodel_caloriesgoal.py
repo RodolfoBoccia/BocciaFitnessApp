@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('obiettivi', '0005_alter_goalmodel_status_alter_goalmodel_tempistica'),
+        ('goals', '0005_alter_goalmodel_status_alter_goalmodel_tempistica'),
     ]
 
     operations = [

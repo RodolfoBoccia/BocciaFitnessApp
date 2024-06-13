@@ -7,7 +7,7 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('obiettivi', '0002_remove_goalmodel_is_completed_goalmodel_status_and_more'),
+        ('goals', '0002_remove_goalmodel_is_completed_goalmodel_status_and_more'),
     ]
 
     operations = [

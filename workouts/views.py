@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, DeleteView, UpdateView
 from .forms import WorkoutForm
 from .models import Workout
-from obiettivi.models import GoalModel
+from goals.models import GoalModel
 
 
 class CreateWorkoutsView(LoginRequiredMixin, FormView):

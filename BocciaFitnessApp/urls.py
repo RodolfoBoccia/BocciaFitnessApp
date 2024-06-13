@@ -27,7 +27,7 @@ urlpatterns = [
     path("", include("pages.urls")),
     path("users/", include("users.urls")),
     path("workouts/", include("workouts.urls")),
-    path("obiettivi/", include("obiettivi.urls")),
+    path("goals/", include("goals.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     re_path(r'^media/(?P<path>.)$', serve, {'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.)$', serve, {'document_root': settings.STATIC_ROOT}),
