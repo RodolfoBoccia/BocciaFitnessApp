@@ -4,3 +4,5 @@ Funzionalità implementate: registrazione nuovi utenti, Login e Logout, possibil
 
 Username: Admin                                                                                                                                                                                                        
 Password: Admin
+
+(ATTENZIONE: Render, il servizio utilizzato per il deploy, disattiva il sito dopo un periodo di inattività, quindi potrebbe volerci dal minuto o più di tempo per l'attivazione del sito)
